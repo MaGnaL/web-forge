@@ -4,4 +4,4 @@ A curated collection of handcrafted, high-quality, production-ready tools and li
 
 ## 📦 Projects
 
-> ℹ️ Projects are currently in the furnace 🔥 stay tuned!
+- **[`cnsl`](./packages/cnsl/README.md)**: A small wrapper around `console` methods with added features like buffered group logging.
