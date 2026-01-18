@@ -1,13 +1,13 @@
-import {Cnsl} from './cnsl.interface';
-import {join,compact} from 'es-toolkit/compat';
-import {InspectOptions} from "node:util";
+import { compact, join } from 'es-toolkit/compat';
+import { InspectOptions } from 'node:util';
+import { Cnsl } from './cnsl.interface';
 
 type Fn = (...args: any[]) => void;
 
 export class CnslClass implements Cnsl {
   private _queue: Fn[] = [];
 
-  private _groups: {[grpIdent: string]: Cnsl} = {};
+  private _groups: { [grpIdent: string]: Cnsl } = {};
 
   private isGroupClosed = false;
 
@@ -17,7 +17,7 @@ export class CnslClass implements Cnsl {
     groupTitle?: string,
     collapsed?: boolean,
     private parentScope?: string,
-    private parentAddToQueue?: (fn:Fn) => void,
+    private parentAddToQueue?: (fn: Fn) => void,
     private groupEndCallback?: Fn
   ) {
     if (groupTitle !== undefined) {
@@ -96,7 +96,7 @@ export class CnslClass implements Cnsl {
     return this;
   }
 
-  public dir(value: any, options?:InspectOptions): this {
+  public dir(value: any, options?: InspectOptions): this {
     this.addToQueue((): void => {
       console.dir.apply(console, [options]);
     });
