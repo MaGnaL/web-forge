@@ -18,5 +18,7 @@
     "dist",
     "!**/*.tsbuildinfo"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "es-toolkit": "1.42.0"
+  }
 }

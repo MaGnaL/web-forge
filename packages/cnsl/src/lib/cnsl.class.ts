@@ -2,8 +2,10 @@ import {Cnsl} from './cnsl.interface';
 import {join,compact} from 'es-toolkit/compat';
 import {InspectOptions} from "node:util";
 
+type Fn = (...args: any[]) => void;
+
 export class CnslClass implements Cnsl {
-  private _queue: Function[] = [];
+  private _queue: Fn[] = [];
 
   private _groups: {[grpIdent: string]: Cnsl} = {};
 
@@ -15,8 +17,8 @@ export class CnslClass implements Cnsl {
     groupTitle?: string,
     collapsed?: boolean,
     private parentScope?: string,
-    private parentAddToQueue?: Function,
-    private groupEndCallback?: Function
+    private parentAddToQueue?: (fn:Fn) => void,
+    private groupEndCallback?: Fn
   ) {
     if (groupTitle !== undefined) {
       this.addToQueue((): void => {
@@ -36,7 +38,7 @@ export class CnslClass implements Cnsl {
   }
 
   public grouped(groupTitle: string, groupFunc: (cnsl: Cnsl) => void, collapsed = false): void {
-    let newGroup: Cnsl = this.createGroup(this.scopedMessage(groupTitle), collapsed);
+    const newGroup: Cnsl = this.createGroup(this.scopedMessage(groupTitle), collapsed);
 
     groupFunc(newGroup);
     newGroup.groupEnd();
@@ -54,7 +56,7 @@ export class CnslClass implements Cnsl {
 
       if (this.parentAddToQueue !== undefined) {
         this.parentAddToQueue(() => {
-          this._queue.forEach((func: Function) => func());
+          this._queue.forEach((func) => func());
         });
       }
 
@@ -181,7 +183,7 @@ export class CnslClass implements Cnsl {
         groupTitle,
         collapsed,
         join(compact([this.parentScope, this.scope]), ' | '),
-        (func: Function) => {
+        (func: Fn) => {
           this.addToQueue(func);
         },
         () => {
@@ -194,7 +196,7 @@ export class CnslClass implements Cnsl {
     return returnedGroup;
   }
 
-  protected addToQueue(func: Function): void {
+  protected addToQueue(func: Fn): void {
     if (!this.isGroupClosed) {
       this._queue.push(func);
 
@@ -205,9 +207,7 @@ export class CnslClass implements Cnsl {
   }
 
   private triggerQueue(): void {
-    this._queue.forEach((func: Function) => {
-      func();
-    });
+    this._queue.forEach((func) => func());
     this._queue = [];
   }
 
