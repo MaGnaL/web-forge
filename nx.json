@@ -2,11 +2,7 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "production": [
-      "default",
-      "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.mjs"
-    ],
+    "production": ["default", "!{projectRoot}/.eslintrc.json", "!{projectRoot}/eslint.config.mjs"],
     "sharedGlobals": []
   },
   "plugins": [
@@ -43,5 +39,6 @@
     "version": {
       "preVersionCommand": "pnpm dlx nx run-many -t build"
     }
-  }
+  },
+  "analytics": false
 }
