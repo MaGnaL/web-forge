@@ -1,8 +1,4 @@
-packages:
-  - packages/*
-
+allowBuilds:
+  '@swc/core': true
+  nx: true
 autoInstallPeers: true
-
-onlyBuiltDependencies:
-  - '@swc/core'
-  - nx
