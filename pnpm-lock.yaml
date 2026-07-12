@@ -112,14 +112,6 @@ importers:
         specifier: ^6.3.2
         version: 6.4.0(typanion@3.14.0)
 
-  packages/cnsl:
-    dependencies:
-      es-toolkit:
-        specifier: 1.42.0
-        version: 1.42.0
-
-  packages/prettier-config: {}
-
 packages:
 
   '@babel/code-frame@7.29.0':
